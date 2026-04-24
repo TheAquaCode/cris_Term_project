@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: threadboard
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        sync: false        # Set this manually in the Render dashboard
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production

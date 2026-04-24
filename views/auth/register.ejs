@@ -1,0 +1,32 @@
+<%- include('../partials/head') %>
+<%- include('../partials/navbar') %>
+
+<main class="auth-main">
+  <div class="auth-card">
+    <h1 class="auth-title">Create Account</h1>
+    <p class="auth-sub">Join the ThreadBoard community</p>
+    <%- include('../partials/flash') %>
+    <form action="/register" method="POST" class="auth-form">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" required placeholder="your_handle">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" required placeholder="you@example.com">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" required placeholder="min 6 chars">
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" name="confirmPassword" required placeholder="repeat password">
+      </div>
+      <button type="submit" class="btn-primary full-width">Register →</button>
+    </form>
+    <p class="auth-switch">Already have an account? <a href="/login">Log in</a></p>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,61 @@
+<%- include('../partials/head') %>
+<%- include('../partials/navbar') %>
+
+<main class="thread-main">
+  <div class="thread-header">
+    <div>
+      <a href="/dashboard" class="back-link">← Dashboard</a>
+      <h1 class="thread-title"><%= topic.title %></h1>
+      <p class="thread-meta">Started by @<%= topic.createdBy.username %> &middot; <%= topic.createdAt.toLocaleDateString() %>
+        &middot; <span class="access-badge"><%= topic.accessCount %> views</span>
+      </p>
+      <% if (topic.description) { %><p class="thread-desc"><%= topic.description %></p><% } %>
+    </div>
+    <% if (isSubscribed) { %>
+      <form action="/topics/unsubscribe/<%= topic._id %>" method="POST">
+        <button type="submit" class="btn-unsub">✕ Unsubscribe</button>
+      </form>
+    <% } else { %>
+      <form action="/topics/subscribe/<%= topic._id %>" method="POST">
+        <button type="submit" class="btn-subscribe">+ Subscribe</button>
+      </form>
+    <% } %>
+  </div>
+
+  <%- include('../partials/flash') %>
+
+  <div class="messages-list">
+    <% if (messages.length === 0) { %>
+      <div class="empty-state"><p>No messages yet. Be the first to post!</p></div>
+    <% } else { %>
+      <% messages.forEach((msg, i) => { %>
+        <div class="message-item <% if (msg.author._id.toString() === (typeof currentUserId !== 'undefined' ? currentUserId : '')) { %>own-message<% } %>">
+          <div class="message-meta">
+            <span class="msg-author">@<%= msg.author.username %></span>
+            <span class="msg-time"><%= msg.postedAt.toLocaleDateString() %> <%= msg.postedAt.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) %></span>
+          </div>
+          <p class="message-body"><%= msg.content %></p>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <% if (isSubscribed) { %>
+    <div class="post-form-wrapper">
+      <h3>Post a Message</h3>
+      <form action="/topics/<%= topic._id %>/message" method="POST" class="post-form">
+        <textarea name="content" rows="4" required placeholder="Write your message…"></textarea>
+        <button type="submit" class="btn-primary">Post Message →</button>
+      </form>
+    </div>
+  <% } else { %>
+    <div class="subscribe-prompt">
+      <p>Subscribe to this topic to post messages.</p>
+      <form action="/topics/subscribe/<%= topic._id %>" method="POST" style="display:inline">
+        <button type="submit" class="btn-subscribe">+ Subscribe</button>
+      </form>
+    </div>
+  <% } %>
+</main>
+
+<%- include('../partials/footer') %>

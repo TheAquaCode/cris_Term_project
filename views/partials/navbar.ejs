@@ -1,0 +1,18 @@
+<nav class="navbar">
+  <a href="/dashboard" class="brand">Thread<span>Board</span></a>
+  <div class="nav-links">
+    <% if (typeof username !== 'undefined' && username) { %>
+      <a href="/dashboard">Home</a>
+      <a href="/topics">Topics</a>
+      <a href="/topics/new">+ New Topic</a>
+      <a href="/stats">Stats</a>
+      <span class="nav-user">@<%= username %></span>
+      <form action="/logout" method="POST" style="display:inline">
+        <button type="submit" class="btn-logout">Logout</button>
+      </form>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </div>
+</nav>

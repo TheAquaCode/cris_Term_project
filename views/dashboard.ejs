@@ -1,0 +1,58 @@
+<%- include('partials/head') %>
+<%- include('partials/navbar') %>
+
+<main class="dashboard-main">
+  <div class="dashboard-header">
+    <div>
+      <h1>Welcome, <span class="accent">@<%= username %></span></h1>
+      <p class="subtitle">Your subscribed topics — 2 most recent messages each</p>
+    </div>
+    <div class="dashboard-actions">
+      <a href="/topics" class="btn-secondary">Browse &amp; Subscribe to Topics</a>
+      <a href="/topics/new" class="btn-primary">+ New Topic</a>
+    </div>
+  </div>
+
+  <%- include('partials/flash') %>
+
+  <% if (topicsWithMessages.length === 0) { %>
+    <div class="empty-state">
+      <p>You're not subscribed to any topics yet.</p>
+      <a href="/topics" class="btn-primary">Browse Topics →</a>
+    </div>
+  <% } else { %>
+    <div class="topics-grid">
+      <% topicsWithMessages.forEach(({ topic, messages }) => { %>
+        <div class="topic-card">
+          <div class="topic-card-header">
+            <a href="/topics/<%= topic._id %>" class="topic-title"><%= topic.title %></a>
+            <form action="/topics/unsubscribe/<%= topic._id %>" method="POST" style="display:inline">
+              <button type="submit" class="btn-unsub" title="Unsubscribe">✕ Unsub</button>
+            </form>
+          </div>
+          <% if (topic.description) { %>
+            <p class="topic-desc"><%= topic.description %></p>
+          <% } %>
+
+          <div class="messages-preview">
+            <% if (messages.length === 0) { %>
+              <p class="no-msgs">No messages yet. <a href="/topics/<%= topic._id %>">Be the first →</a></p>
+            <% } else { %>
+              <% messages.forEach(msg => { %>
+                <div class="msg-preview">
+                  <span class="msg-author">@<%= msg.author.username %></span>
+                  <span class="msg-time"><%= msg.postedAt.toLocaleDateString() %> <%= msg.postedAt.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) %></span>
+                  <p class="msg-content"><%= msg.content.length > 140 ? msg.content.substring(0, 140) + '…' : msg.content %></p>
+                </div>
+              <% }) %>
+            <% } %>
+          </div>
+
+          <a href="/topics/<%= topic._id %>" class="view-thread-link">View full thread →</a>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</main>
+
+<%- include('partials/footer') %>
