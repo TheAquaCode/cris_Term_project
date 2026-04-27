@@ -197,15 +197,13 @@ class TopicController {
         .sort({ accessCount: -1 })
         .populate('createdBy', 'username');
 
-      const totalAccesses = topics.reduce((sum, t) => sum + t.accessCount, 0);
-      const totalMessages = await Message.countDocuments();
+      const myMessageCount = await Message.countDocuments({ author: req.session.userId });
 
       res.render('stats', {
         title: 'Topic Statistics',
         username: req.session.username,
         topics,
-        totalAccesses,
-        totalMessages
+        myMessageCount
       });
     } catch (err) {
       console.error(err);
