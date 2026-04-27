@@ -28,24 +28,15 @@
           <th>Topic</th>
           <th>Created By</th>
           <th>Created</th>
-          <th>Access Count</th>
-          <th>Bar</th>
         </tr>
       </thead>
       <tbody>
-        <% const maxAccess = topics.length > 0 ? Math.max(...topics.map(t => t.accessCount), 1) : 1; %>
         <% topics.forEach((topic, i) => { %>
           <tr>
             <td class="rank"><%= i + 1 %></td>
             <td><a href="/topics/<%= topic._id %>" class="topic-link"><%= topic.title %></a></td>
             <td class="muted">@<%= topic.createdBy.username %></td>
             <td class="muted"><%= topic.createdAt.toLocaleDateString() %></td>
-            <td class="count-cell"><%= topic.accessCount %></td>
-            <td class="bar-cell">
-              <div class="bar-bg">
-                <div class="bar-fill" style="width: <%= Math.round((topic.accessCount / maxAccess) * 100) %>%"></div>
-              </div>
-            </td>
           </tr>
         <% }) %>
       </tbody>
@@ -54,4 +45,3 @@
 </main>
 
 <%- include('partials/footer') %>
-
