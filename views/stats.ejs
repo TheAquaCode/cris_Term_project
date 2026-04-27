@@ -4,6 +4,7 @@
 <main class="page-main">
   <div class="page-header">
     <h1>Topic Statistics</h1>
+    <p class="subtitle">Access counts tracked via Observer pattern</p>
   </div>
 
   <%- include('partials/flash') %>
@@ -27,6 +28,7 @@
           <th>Topic</th>
           <th>Created By</th>
           <th>Created</th>
+          <th>Times Accessed</th>
         </tr>
       </thead>
       <tbody>
@@ -36,6 +38,7 @@
             <td><a href="/topics/<%= topic._id %>" class="topic-link"><%= topic.title %></a></td>
             <td class="muted">@<%= topic.createdBy.username %></td>
             <td class="muted"><%= topic.createdAt.toLocaleDateString() %></td>
+            <td class="count-cell"><%= topic.accessCount %></td>
           </tr>
         <% }) %>
       </tbody>
